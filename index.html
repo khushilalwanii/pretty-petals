@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Shop Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #chat-box { width: 100%; max-width: 600px; margin: 0 auto; }
+        #messages { border: 1px solid #ddd; padding: 10px; height: 300px; overflow-y: scroll; }
+        .message { margin: 5px 0; }
+        .user { text-align: right; }
+        .bot { text-align: left; color: green; }
+        #input-box { margin-top: 10px; display: flex; }
+        #input-box input { flex: 1; padding: 10px; font-size: 14px; }
+        #input-box button { padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div id="chat-box">
+        <div id="messages"></div>
+        <div id="input-box">
+            <input type="text" id="user-input" placeholder="Ask me something about flowers...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById('user-input').value;
+            if (!userInput.trim()) return;
+
+            const messagesDiv = document.getElementById('messages');
+            const userMessage = `<div class="message user">${userInput}</div>`;
+            messagesDiv.innerHTML += userMessage;
+
+            document.getElementById('user-input').value = '';
+
+            // Call the PHP backend
+            const response = await fetch('chatbot.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `user_input=${encodeURIComponent(userInput)}`
+            });
+
+            const data = await response.json();
+            const botMessage = `<div class="message bot">${data.response || 'Sorry, I could not understand that.'}</div>`;
+            messagesDiv.innerHTML += botMessage;
+
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    </script>
+</body>
+</html>
