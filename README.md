@@ -19,17 +19,3 @@
    ```bash
    git clone https://github.com/khushilalwanii/pretty-petals.git
 
-2. Open the project in your local server (XAMPP/WAMP)
-
-3. Start browsing and testing the website locally   
-
-
----
-
-### Next Steps:
-1. Save this file as `README.md` in `D:\pretty petals`.  
-2. Run these Git commands to update GitHub:
-```bash
-git add README.md
-git commit -m "Added README with project description"
-git push
